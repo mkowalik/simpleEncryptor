@@ -1,10 +1,7 @@
-package model;
+package encryptor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.util.Iterator;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -44,26 +41,12 @@ public class XOREncryptor implements Encryptor {
 		
 	}
 
-	@Override
-	public void encrypt(File in, File out, Object[] parameters) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void decrytp(File in, File out, Object[] parameters) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Iterator<Byte> getDecryptedIterator() {
+	public String encrypt(String in){
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public Iterator<Byte> getEncryptedIterator() {
+	
+	public String decrytp(String in){
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -80,6 +63,12 @@ public class XOREncryptor implements Encryptor {
 	@Override
 	public String toString() {
 		return encryptorName;
+	}
+
+	@Override
+	public void setParameters(Object[] parameters) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
