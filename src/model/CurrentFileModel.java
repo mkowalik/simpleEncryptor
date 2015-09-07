@@ -29,92 +29,59 @@ public class CurrentFileModel {
 		this.encryptedFileString = null;
 	}
 	
-	private static String readBinaryFileToString(File file){
-		String ret = null;
-		try {
-			DataInputStream stream = new DataInputStream(new FileInputStream(file));
-			StringBuilder builder = new StringBuilder();
-			while (stream.available()>=2){
-				char c = stream.readChar();
-				builder.append(c);
-			}
-			stream.close();
-			ret = builder.toString();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private static String readBinaryFileToString(File file) throws FileNotFoundException, IOException {
+		DataInputStream stream = new DataInputStream(new FileInputStream(file));
+		StringBuilder builder = new StringBuilder();
+		while (stream.available()>=2){
+			char c = stream.readChar();
+			builder.append(c);
 		}
-		return ret;
+		stream.close();
+		return builder.toString();
 	}
 	
-	private static String readTextFileToString(File file){
-		String ret = null;
-		try {
-			FileReader reader = new FileReader(file);
-			StringBuilder builder = new StringBuilder();
-			char[] buffer = new char[16];
-			int read = 0;
-			while ((read = reader.read(buffer))>=0){
-				builder.append(buffer, 0, read);
-			}
-			reader.close();
-			ret = builder.toString();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	private static String readTextFileToString(File file) throws FileNotFoundException, IOException {
+		FileReader reader = new FileReader(file);
+		StringBuilder builder = new StringBuilder();
+		char[] buffer = new char[16];
+		int read = 0;
+		while ((read = reader.read(buffer))>=0){
+			builder.append(buffer, 0, read);
 		}
-		return ret;
+		reader.close();
+		return builder.toString();
 	}
 
-	private void saveBinaryStringToFile(String text, File file) {
-		try {
-			DataOutputStream stream = new DataOutputStream(new FileOutputStream(file));
-			stream.writeChars(text);
-			stream.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private void saveBinaryStringToFile(String text, File file) throws FileNotFoundException, IOException {
+		DataOutputStream stream = new DataOutputStream(new FileOutputStream(file));
+		stream.writeChars(text);
+		stream.close();
 	}
 	
-	private void saveTextStringToFile(String text, File file){
-		try {
-			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-			writer.write(text);
-			writer.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e){
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	private void saveTextStringToFile(String text, File file) throws FileNotFoundException, IOException {
+		Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+		writer.write(text);
+		writer.close();
 	}
 	
-	public String getOrginalFileString(){
+	public String getOrginalFileString() throws IOException{
 		if (orginalFileString == null)
 			orginalFileString = readTextFileToString(orginalFile);
 		return orginalFileString;
 	}
 	
-	public String getEncryptedFileString(){
+	public String getEncryptedFileString() throws IOException{
 		if (encryptedFileString == null)
 			encryptedFileString = readBinaryFileToString(encryptedFile);
 		return encryptedFileString;
 	}
 	
-	public void saveToFileEncryptedString(String text){
+	public void saveToFileEncryptedString(String text) throws FileNotFoundException, IOException{
 		encryptedFileString = text;
 		saveBinaryStringToFile(text, encryptedFile);
 	}
 	
-	public void saveToFileOrginalString(String text){
+	public void saveToFileOrginalString(String text) throws FileNotFoundException, IOException{
 		orginalFileString = text;
 		saveTextStringToFile(text, orginalFile);
 	}

@@ -7,12 +7,14 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import controller.ActionPerformerViewInterface;
 import controller.ActionsController;
+import controller.ErrorDisplayInterface;
 import encryptor.EncryptorInterface;
 import misc.Config;
 
@@ -57,7 +59,7 @@ final class EncryptorPanelRet {
 	
 }
 
-public class MainView implements ActionPerformerViewInterface {
+public class MainView implements ActionPerformerViewInterface, ErrorDisplayInterface {
 	
 	private JFrame mainFrame = new JFrame();
 	private ButtonActionsHandlers buttonActionsHandlers;
@@ -144,13 +146,13 @@ public class MainView implements ActionPerformerViewInterface {
 		
 		FilePreviewRet tmp = null;
 		
-		tmp = prepareFilePreviewFrame("Encrypt File", "Load original file", "Orginal text", mainFrame, buttonActionsHandlers.new LoadOriginalFileButtonListener(mainFrame, this), buttonActionsHanlers.new EncryptFileButtonListener(mainFrame, this));
+		tmp = prepareFilePreviewFrame("Encrypt File", "Load original file", "Orginal text", mainFrame, buttonActionsHandlers.new LoadOriginalFileButtonListener(mainFrame, this, this), buttonActionsHanlers.new EncryptFileButtonListener(mainFrame, this, this));
 		JPanel orginialPanel = tmp.getPanel();
 		this.orginalTextArea = tmp.getTextArea();
 		orginialPanel.setBounds(20, 115, 480, 585);
 		mainFrame.add(orginialPanel);
 		
-		tmp = prepareFilePreviewFrame("Decrypt File", "Load encrypted file", "Encrypted text", mainFrame, buttonActionsHandlers.new LoadEncryptedFileButtonListener(mainFrame, this), buttonActionsHanlers.new DecryptFileButtonListener(mainFrame, this));
+		tmp = prepareFilePreviewFrame("Decrypt File", "Load encrypted file", "Encrypted text", mainFrame, buttonActionsHandlers.new LoadEncryptedFileButtonListener(mainFrame, this, this), buttonActionsHanlers.new DecryptFileButtonListener(mainFrame, this, this));
 		JPanel encryptedPanel = tmp.getPanel();
 		this.encryptedTextArea = tmp.getTextArea();
 		encryptedPanel.setBounds(524, 115, 480, 585);
@@ -175,6 +177,21 @@ public class MainView implements ActionPerformerViewInterface {
 	@Override
 	public void showEncryptedFile(String file) {
 		encryptedTextArea.setText(file);
+	}
+
+	@Override
+	public void noSuchFileWarning(String message) {
+		JOptionPane.showMessageDialog(mainFrame, "No such file.\n" + message);
+	}
+
+	@Override
+	public void readingFileProblemWarning(String message) {
+		JOptionPane.showMessageDialog(mainFrame, "Problem while reading file occured.\n" + message);
+	}
+
+	@Override
+	public void customizeEncryptorWarning(String message) {
+		JOptionPane.showMessageDialog(mainFrame, "Please, customize choosed encryptor.\n" + message);
 	}
 
 }

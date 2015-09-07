@@ -156,15 +156,14 @@ public class XOREncryptor implements EncryptorInterface {
 	}
 
 	public EncryptorReturn encrypt(String in) throws CustomizeEncryptorException {
-		if (password == "") throw new CustomizeEncryptorException("Empty password");
+		if (password == null || password == "") throw new CustomizeEncryptorException("Empty password");
 		String properIn = preprocessingEncryptToDisplay(in);
 		PasswordXORer xorer = new PasswordXORer(password);
 		return XORWithPassword6Bit(properIn, password, xorer);
 	}
 	
 	public EncryptorReturn decrytp(String in) throws CustomizeEncryptorException{
-		if (password == "") throw new CustomizeEncryptorException("Empty password");
-		
+		if (password == null || password == "") throw new CustomizeEncryptorException("Empty password");
 		
 		in = decompressString(in);
 		StringBuilder builder = new StringBuilder();

@@ -10,6 +10,7 @@ import javax.swing.JFrame;
 
 import controller.ActionPerformerViewInterface;
 import controller.ActionsController;
+import controller.ErrorDisplayInterface;
 import encryptor.EncryptorInterface;
 
 public class ButtonActionsHandlers {
@@ -53,10 +54,12 @@ public class ButtonActionsHandlers {
 
 		private JFrame mainFrame;
 		private ActionPerformerViewInterface actionPerformer;
+		private ErrorDisplayInterface errorDisplayer;
 
-		public LoadOriginalFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer) {
+		public LoadOriginalFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer, ErrorDisplayInterface errorDisplayer) {
 			this.mainFrame = mainFrame;
 			this.actionPerformer = actionPerformer;
+			this.errorDisplayer = errorDisplayer;
 		}
 
 		@Override
@@ -68,7 +71,7 @@ public class ButtonActionsHandlers {
 				return;
 			else {
 				File file = chooser.getSelectedFile();
-				actionsController.loadOrginalFile(actionPerformer, file);
+				actionsController.loadOrginalFile(actionPerformer, errorDisplayer, file);
 			}
 		}
 	}
@@ -77,10 +80,12 @@ public class ButtonActionsHandlers {
 
 		private JFrame mainFrame;
 		private ActionPerformerViewInterface actionPerformer;
+		private ErrorDisplayInterface errorDisplayer;
 
-		public LoadEncryptedFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer) {
+		public LoadEncryptedFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer, ErrorDisplayInterface errorDisplayer) {
 			this.mainFrame = mainFrame;
 			this.actionPerformer = actionPerformer;
+			this.errorDisplayer = errorDisplayer;
 		}
 
 		@Override
@@ -92,7 +97,7 @@ public class ButtonActionsHandlers {
 				return;
 			else {
 				File file = chooser.getSelectedFile();
-				actionsController.loadEncryptedFile(actionPerformer, file);
+				actionsController.loadEncryptedFile(actionPerformer, errorDisplayer, file);
 			}
 		}
 	}
@@ -101,10 +106,12 @@ public class ButtonActionsHandlers {
 		
 		private JFrame mainFrame;
 		private ActionPerformerViewInterface actionPerformer;
+		private ErrorDisplayInterface errorDisplayer;
 
-		public EncryptFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer) {
+		public EncryptFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer, ErrorDisplayInterface errorDisplayer) {
 			this.mainFrame = mainFrame;
 			this.actionPerformer = actionPerformer;
+			this.errorDisplayer = errorDisplayer;
 		}
 
 		@Override
@@ -116,7 +123,7 @@ public class ButtonActionsHandlers {
 				return;
 			else {
 				File file = chooser.getSelectedFile();
-				actionsController.encrypt(actionPerformer, file);
+				actionsController.encrypt(actionPerformer, errorDisplayer, file);
 			}
 
 		}
@@ -127,10 +134,12 @@ public class ButtonActionsHandlers {
 		
 		private JFrame mainFrame;
 		private ActionPerformerViewInterface actionPerformer;
+		private ErrorDisplayInterface errorDisplayer;
 
-		public DecryptFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer) {
+		public DecryptFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer, ErrorDisplayInterface errorDisplayer) {
 			this.mainFrame = mainFrame;
 			this.actionPerformer = actionPerformer;
+			this.errorDisplayer = errorDisplayer;
 		}
 		
 		@Override
@@ -142,7 +151,7 @@ public class ButtonActionsHandlers {
 				return;
 			else {
 				File file = chooser.getSelectedFile();
-				actionsController.decrypt(actionPerformer, file);
+				actionsController.decrypt(actionPerformer, errorDisplayer, file);
 			}
 
 		}
