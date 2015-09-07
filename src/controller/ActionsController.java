@@ -3,7 +3,7 @@ package controller;
 import java.io.File;
 
 import encryptor.CustomizeEncryptorException;
-import encryptor.Encryptor;
+import encryptor.EncryptorInterface;
 import encryptor.EncryptorChooser;
 import encryptor.EncryptorReturn;
 import model.CurrentFileModel;
@@ -12,7 +12,7 @@ public class ActionsController {
 	
 	private CurrentFileModel currentFileModel;
 	private EncryptorChooser encryptoChooser;
-	private Encryptor actualEncryptor = null; 
+	private EncryptorInterface actualEncryptor = null; 
 
 	public ActionsController(CurrentFileModel currentFileModel, EncryptorChooser encrytporChooser){
 		this.currentFileModel = currentFileModel;
@@ -41,10 +41,6 @@ public class ActionsController {
 			encrypted = actualEncryptor.encrypt(currentFileModel.getOrginalFileString());
 			currentFileModel.setUpEncryptedFile(outFile);
 			currentFileModel.saveToFileEncryptedString(encrypted.getToSaveInFIle());
-			String str = encrypted.getToSaveInFIle();
-			for (int i=0; i<str.length(); i++){
-				System.out.println("aa:" + (int)str.charAt(i));
-			}
 			view.showEncryptedFile(encrypted.getToDisplay());
 		} catch (CustomizeEncryptorException e) {
 			// TODO Auto-generated catch block
@@ -69,11 +65,11 @@ public class ActionsController {
 		return encryptoChooser;
 	}
 
-	public void setChoosedEncryptor(Encryptor selectedEncryptor) {
+	public void setChoosedEncryptor(EncryptorInterface selectedEncryptor) {
 		this.actualEncryptor = selectedEncryptor;
 	}
 	
-	public Encryptor getChoosedEncryptor(){
+	public EncryptorInterface getChoosedEncryptor(){
 		return actualEncryptor;
 	}
 

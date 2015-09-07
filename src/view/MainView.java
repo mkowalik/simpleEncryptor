@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 
 import controller.ActionPerformerViewInterface;
 import controller.ActionsController;
-import encryptor.Encryptor;
+import encryptor.EncryptorInterface;
 import misc.Config;
 
 
@@ -40,9 +40,9 @@ final class FilePreviewRet {
 final class EncryptorPanelRet {
 	
 	private JPanel panel;
-	private JComboBox<Encryptor> comboBox;
+	private JComboBox<EncryptorInterface> comboBox;
 	
-	protected EncryptorPanelRet(JPanel panel, JComboBox<Encryptor> comboBox) {
+	protected EncryptorPanelRet(JPanel panel, JComboBox<EncryptorInterface> comboBox) {
 		this.panel = panel;
 		this.comboBox = comboBox;
 	}
@@ -51,7 +51,7 @@ final class EncryptorPanelRet {
 		return panel;
 	}
 	
-	protected JComboBox<Encryptor> getComboBox(){
+	protected JComboBox<EncryptorInterface> getComboBox(){
 		return comboBox;
 	}
 	
@@ -101,7 +101,7 @@ public class MainView implements ActionPerformerViewInterface {
 		
 	}
 	
-	private static EncryptorPanelRet prepareEncryptorPanel(List<Encryptor> encryptorList, JFrame mainFrame, ActionListener chooserBoxListener, ActionListener custmizeEncryptorButtonListener){
+	private static EncryptorPanelRet prepareEncryptorPanel(List<EncryptorInterface> encryptorList, JFrame mainFrame, ActionListener chooserBoxListener, ActionListener custmizeEncryptorButtonListener){
 		
 		JPanel ret = new JPanel();
 		ret.setSize(984, 80);
@@ -111,9 +111,9 @@ public class MainView implements ActionPerformerViewInterface {
 		encryptorLabel.setBounds(0, 0, 984, 30);
 		encryptorLabel.setVerticalAlignment(JLabel.TOP);
 		
-		JComboBox<Encryptor> encryptorChooserBox = new JComboBox<Encryptor>();
+		JComboBox<EncryptorInterface> encryptorChooserBox = new JComboBox<EncryptorInterface>();
 		encryptorChooserBox.setBounds(0, 20, 480, 20);
-		for (Encryptor enc: encryptorList){
+		for (EncryptorInterface enc: encryptorList){
 			encryptorChooserBox.addItem(enc);
 		}	
 		encryptorChooserBox.addActionListener(chooserBoxListener);
@@ -132,7 +132,7 @@ public class MainView implements ActionPerformerViewInterface {
 		
 	}
 	
-	public MainView(ButtonActionsHandlers buttonActionsHanlers, ActionsController actionsController, List<Encryptor> encryptorsList) {
+	public MainView(ButtonActionsHandlers buttonActionsHanlers, ActionsController actionsController, List<EncryptorInterface> encryptorsList) {
 		
 		this.buttonActionsHandlers = buttonActionsHanlers;
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -160,7 +160,7 @@ public class MainView implements ActionPerformerViewInterface {
 		tmp2 = prepareEncryptorPanel(encryptorsList, mainFrame, buttonActionsHanlers.new ChooserBoxListener(), buttonActionsHanlers.new CustomizeEncryptorButtonListener(mainFrame));
 		JPanel encryptorPanel = tmp2.getPanel();
 		encryptorPanel.setBounds(20, 20, 984, 80);
-		actionsController.setChoosedEncryptor((Encryptor)tmp2.getComboBox().getSelectedItem());
+		actionsController.setChoosedEncryptor((EncryptorInterface)tmp2.getComboBox().getSelectedItem());
 		mainFrame.add(encryptorPanel);
 		
 		mainFrame.setVisible(true);
@@ -174,10 +174,7 @@ public class MainView implements ActionPerformerViewInterface {
 
 	@Override
 	public void showEncryptedFile(String file) {
-		System.out.println("PRE SHOW");
 		encryptedTextArea.setText(file);
-		System.out.println(file);
-		System.out.println("DONE SHOW");
 	}
 
 }

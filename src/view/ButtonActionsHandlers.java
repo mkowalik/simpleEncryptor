@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 
 import controller.ActionPerformerViewInterface;
 import controller.ActionsController;
-import encryptor.Encryptor;
+import encryptor.EncryptorInterface;
 
 public class ButtonActionsHandlers {
 
@@ -26,8 +26,7 @@ public class ButtonActionsHandlers {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			actionsController
-					.setChoosedEncryptor((Encryptor) (((JComboBox<Encryptor>) e.getSource()).getSelectedItem()));
-			System.out.println("ChooserBoxListener");
+					.setChoosedEncryptor((EncryptorInterface) (((JComboBox<EncryptorInterface>) e.getSource()).getSelectedItem()));
 		}
 
 	}
@@ -42,7 +41,7 @@ public class ButtonActionsHandlers {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Encryptor enc = actionsController.getChoosedEncryptor();
+			EncryptorInterface enc = actionsController.getChoosedEncryptor();
 			JDialog widget = enc.getParametersWidget(mainFrame);
 			widget.setLocationRelativeTo(mainFrame);
 			widget.setVisible(true);
@@ -68,7 +67,6 @@ public class ButtonActionsHandlers {
 			if (chooser.showOpenDialog(mainFrame) != JFileChooser.APPROVE_OPTION)
 				return;
 			else {
-				System.out.println("Load orginal file button");
 				File file = chooser.getSelectedFile();
 				actionsController.loadOrginalFile(actionPerformer, file);
 			}
@@ -113,12 +111,10 @@ public class ButtonActionsHandlers {
 		public void actionPerformed(ActionEvent e) {
 
 			JFileChooser chooser = new JFileChooser();
-			System.out.println("Encrypt 1");
 
 			if (chooser.showOpenDialog(mainFrame) != JFileChooser.APPROVE_OPTION)
 				return;
 			else {
-				System.out.println("Encrypt 2");
 				File file = chooser.getSelectedFile();
 				actionsController.encrypt(actionPerformer, file);
 			}

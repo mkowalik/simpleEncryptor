@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class XOREncryptor implements Encryptor {
+public class XOREncryptor implements EncryptorInterface {
 	
 	private class PasswordXORer {
 		
@@ -26,10 +26,9 @@ public class XOREncryptor implements Encryptor {
 			int actPointerBit = actPointer%16;
 			
 			char actPassChar = password.charAt(actPointerChar);
-			System.out.println("First actPassChar: " + (int)actPassChar);
 //			actPassChar = (char) (actPassChar >>> (10-actPointerBit));
 			
-			if (10-actPointerBit<0){
+			if (10-actPointerBit<=0){
 				actPassChar = (char) (actPassChar << (actPointerBit-10));
 				int actPointerCharNext = (actPointerChar + 1) % password.length();
 				char actPassCharNext = password.charAt(actPointerCharNext);
@@ -39,13 +38,8 @@ public class XOREncryptor implements Encryptor {
 				actPassChar = (char) (actPassChar >>> (10-actPointerBit));
 			}
 			
-			System.out.println("toXOR:" + (int)toXOR);
-			System.out.println("actPassChar:" + (int)actPassChar);
-			System.out.println("actPointerChar:" + actPointerChar);
-			System.out.println("actPointerBit:" + actPointerBit);
-			
 			actPointer += 6;			
-			
+	
 			return (char) ((toXOR ^ actPassChar) & 0x003F);
 		}
 		
@@ -116,13 +110,13 @@ public class XOREncryptor implements Encryptor {
 		if (c == 1)
 			return ' ';
 		if (c >=2 && c <=11){
-			return (char) (c + '0' - 2);
+			return (char) (c + (int)'0' - 2);
 		}
 		if (c >= 12 && c <= 37){
-			return (char) (c + 'A' - 12);	
+			return (char) (c + (int)'A' - 12);	
 		}
 		if (c >= 38 && c <= 63){
-			return (char) (c + 'a' - 38);
+			return (char) (c + (int)'a' - 38);
 		}
 		return ' ';
 	}
@@ -142,11 +136,9 @@ public class XOREncryptor implements Encryptor {
 			char actCharXORedDecompressed = decompressChars(actCharXORed);
 			builderToDisplay.append(actCharXORedDecompressed);
 			
-			System.out.println((int)actCharXORed);
-			
 //			nextChar |= ((0x3F & actCharCompressed)<<(10-positionInNextChar));
-			if (10-positionInNextChar < 0){
-				nextChar |= ((0x3F & actCharXORed)>>>(positionInNextChar-10));
+			if (10-positionInNextChar <= 0){ //JAK COS TO TU NIE BYLO ROWNOSCI
+				nextChar |= ((actCharXORed)>>>(positionInNextChar-10));
 				builderToSave.append(nextChar);
 				nextChar = 0;
 				nextChar |= actCharXORed<<(16 + 10-positionInNextChar);
@@ -165,15 +157,7 @@ public class XOREncryptor implements Encryptor {
 
 	public EncryptorReturn encrypt(String in) throws CustomizeEncryptorException {
 		if (password == "") throw new CustomizeEncryptorException("Empty password");
-		for (int i=0; i<in.length(); i++){
-			System.out.println((int)in.charAt(i));
-		}
-		System.out.println("DONE IN");
 		String properIn = preprocessingEncryptToDisplay(in);
-		for (int i=0; i<properIn.length(); i++){
-			System.out.println((int)properIn.charAt(i));
-		}
-		System.out.println("DONE PRPOERIN");
 		PasswordXORer xorer = new PasswordXORer(password);
 		return XORWithPassword6Bit(properIn, password, xorer);
 	}
@@ -222,19 +206,18 @@ public class XOREncryptor implements Encryptor {
 		StringBuilder builder = new StringBuilder();
 		char actChar = 0;
 		
-		for (int i=0; i<in.length() * 16; i+=6){
+		for (int i=0; i+6<in.length() * 16; i+=6){
 			char inChar = in.charAt(i/16);
 //			actChar = (char) (inChar >>> (10 - (i%16)));
-			if (10 - (i%16) < 0){
+			if (10 - (i%16) < 0 && ((i/16) + 1) < in.length()){
 				actChar = (char) (inChar << ((i%16) - 10));
 				inChar = in.charAt((i/16) + 1);
 				actChar |= (char)(inChar >>> (10 - (i%16) + 16));
 			} else {
 				actChar = (char) (inChar >>> (10 - (i%16)));
 			}
-			builder.append(actChar);
+			builder.append((char)(actChar & 0x3F));
 		}
-		
 		return builder.toString();
 		
 	}

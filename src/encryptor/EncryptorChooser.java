@@ -5,22 +5,22 @@ import java.util.List;
 
 public class EncryptorChooser {
 	
-	private List<Encryptor> list = new ArrayList<>();
-	private Encryptor actualEncryptor = null;
+	private List<EncryptorInterface> list = new ArrayList<>();
+	private EncryptorInterface actualEncryptor = null;
 	
-	public void registerEncryptor(Encryptor enc){
+	public void registerEncryptor(EncryptorInterface enc){
 		list.add(enc);
 	}
 	
-	public List<Encryptor> getEncryptorList(){
+	public List<EncryptorInterface> getEncryptorList(){
 		return list;
 	}
 	
-	public void setActualEncryptor(Encryptor actualEncryptor){
+	public void setActualEncryptor(EncryptorInterface actualEncryptor){
 		this.actualEncryptor = actualEncryptor;
 	}
 	
-	public Encryptor getActualEncryptor(){
+	public EncryptorInterface getActualEncryptor(){
 		return this.actualEncryptor;
 	}
 	

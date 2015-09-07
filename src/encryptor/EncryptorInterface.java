@@ -2,7 +2,7 @@ package encryptor;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-public interface Encryptor {
+public interface EncryptorInterface {
 
 	public EncryptorReturn encrypt(String in) throws CustomizeEncryptorException;
 	public EncryptorReturn decrytp(String in) throws CustomizeEncryptorException;
