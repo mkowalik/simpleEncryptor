@@ -70,7 +70,7 @@ public class ButtonActionsHandlers {
 			else {
 				System.out.println("Load orginal file button");
 				File file = chooser.getSelectedFile();
-				actionsController.loadOrginaleFile(actionPerformer, file);
+				actionsController.loadOrginalFile(actionPerformer, file);
 			}
 		}
 	}
@@ -100,22 +100,55 @@ public class ButtonActionsHandlers {
 	}
 
 	public class EncryptFileButtonListener implements ActionListener {
+		
+		private JFrame mainFrame;
+		private ActionPerformerViewInterface actionPerformer;
+
+		public EncryptFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer) {
+			this.mainFrame = mainFrame;
+			this.actionPerformer = actionPerformer;
+		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+
+			JFileChooser chooser = new JFileChooser();
+			System.out.println("Encrypt 1");
+
+			if (chooser.showOpenDialog(mainFrame) != JFileChooser.APPROVE_OPTION)
+				return;
+			else {
+				System.out.println("Encrypt 2");
+				File file = chooser.getSelectedFile();
+				actionsController.encrypt(actionPerformer, file);
+			}
 
 		}
 
 	}
 
 	public class DecryptFileButtonListener implements ActionListener {
+		
+		private JFrame mainFrame;
+		private ActionPerformerViewInterface actionPerformer;
 
+		public DecryptFileButtonListener(JFrame mainFrame, ActionPerformerViewInterface actionPerformer) {
+			this.mainFrame = mainFrame;
+			this.actionPerformer = actionPerformer;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
+
+			JFileChooser chooser = new JFileChooser();
+
+			if (chooser.showOpenDialog(mainFrame) != JFileChooser.APPROVE_OPTION)
+				return;
+			else {
+				File file = chooser.getSelectedFile();
+				actionsController.decrypt(actionPerformer, file);
+			}
 
 		}
-
 	}
 }

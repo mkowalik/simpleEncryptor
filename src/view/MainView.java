@@ -1,12 +1,10 @@
 package view;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,8 +15,6 @@ import controller.ActionPerformerViewInterface;
 import controller.ActionsController;
 import encryptor.Encryptor;
 import misc.Config;
-
-
 
 
 final class FilePreviewRet {
@@ -67,9 +63,8 @@ public class MainView implements ActionPerformerViewInterface {
 	private ButtonActionsHandlers buttonActionsHandlers;
 	private JTextArea orginalTextArea;
 	private JTextArea encryptedTextArea;
-	private ActionsController actionsController;
 	
-	private static FilePreviewRet prepareFilePreviewFrame(String bottomButtonDescription, String loadButtonDescription, String topLabelString, JFrame mainFrame, ActionListener loadButtonListener){
+	private static FilePreviewRet prepareFilePreviewFrame(String bottomButtonDescription, String loadButtonDescription, String topLabelString, JFrame mainFrame, ActionListener loadButtonListener, ActionListener bottomButtonListener){
 		
 		JPanel ret = new JPanel();
 		ret.setSize(520, 585);
@@ -95,6 +90,7 @@ public class MainView implements ActionPerformerViewInterface {
 		JButton bottomButton = new JButton(bottomButtonDescription);
 		bottomButton.setBounds(330, 555, 150, 30);
 		bottomButton.setHorizontalAlignment(JButton.CENTER);
+		bottomButton.addActionListener(bottomButtonListener);
 
 		ret.add(topLabel);
 		ret.add(decodedFrameScrolled);
@@ -139,8 +135,6 @@ public class MainView implements ActionPerformerViewInterface {
 	public MainView(ButtonActionsHandlers buttonActionsHanlers, ActionsController actionsController, List<Encryptor> encryptorsList) {
 		
 		this.buttonActionsHandlers = buttonActionsHanlers;
-		this.actionsController = actionsController;
-		
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setTitle(Config.appName);
 		mainFrame.setSize(1024, 768);
@@ -150,13 +144,13 @@ public class MainView implements ActionPerformerViewInterface {
 		
 		FilePreviewRet tmp = null;
 		
-		tmp = prepareFilePreviewFrame("Encrypt File", "Load original file", "Orginal text", mainFrame, buttonActionsHandlers.new LoadOriginalFileButtonListener(mainFrame, this));
+		tmp = prepareFilePreviewFrame("Encrypt File", "Load original file", "Orginal text", mainFrame, buttonActionsHandlers.new LoadOriginalFileButtonListener(mainFrame, this), buttonActionsHanlers.new EncryptFileButtonListener(mainFrame, this));
 		JPanel orginialPanel = tmp.getPanel();
 		this.orginalTextArea = tmp.getTextArea();
 		orginialPanel.setBounds(20, 115, 480, 585);
 		mainFrame.add(orginialPanel);
 		
-		tmp = prepareFilePreviewFrame("Decrypt File", "Load encrypted file", "Encrypted text", mainFrame, buttonActionsHandlers.new LoadEncryptedFileButtonListener(mainFrame, this));
+		tmp = prepareFilePreviewFrame("Decrypt File", "Load encrypted file", "Encrypted text", mainFrame, buttonActionsHandlers.new LoadEncryptedFileButtonListener(mainFrame, this), buttonActionsHanlers.new DecryptFileButtonListener(mainFrame, this));
 		JPanel encryptedPanel = tmp.getPanel();
 		this.encryptedTextArea = tmp.getTextArea();
 		encryptedPanel.setBounds(524, 115, 480, 585);
@@ -180,7 +174,10 @@ public class MainView implements ActionPerformerViewInterface {
 
 	@Override
 	public void showEncryptedFile(String file) {
+		System.out.println("PRE SHOW");
 		encryptedTextArea.setText(file);
+		System.out.println(file);
+		System.out.println("DONE SHOW");
 	}
 
 }

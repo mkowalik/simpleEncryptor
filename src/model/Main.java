@@ -15,7 +15,6 @@ public class Main {
 
 	private static ActionsController actionsController = null;
 	private static ButtonActionsHandlers buttonActionsHandlers = null;
-	private static MainView mainView = null;
 	private static EncryptorChooser encryptorChooser = null;
 	private static CurrentFileModel currentFileModel = null;
 	
@@ -32,7 +31,7 @@ public class Main {
 		
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run(){
-				mainView = new MainView(buttonActionsHandlers, actionsController, encryptorChooser.getEncryptorList());
+				new MainView(buttonActionsHandlers, actionsController, encryptorChooser.getEncryptorList());
 			}
 		});
 		

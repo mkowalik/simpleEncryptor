@@ -1,10 +1,12 @@
 package model;
 
 import java.io.BufferedWriter;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -32,8 +34,9 @@ public class CurrentFileModel {
 			FileReader reader = new FileReader(file);
 			StringBuilder builder = new StringBuilder();
 			char[] buffer = new char[16];
-			while (reader.read(buffer)>=0){
-				builder.append(buffer);
+			int read = 0;
+			while ((read = reader.read(buffer))>=0){
+				builder.append(buffer, 0, read);
 			}
 			reader.close();
 			ret = builder.toString();
@@ -49,9 +52,9 @@ public class CurrentFileModel {
 
 	private void saveStringToFile(String text, File file) {
 		try {
-			Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-			writer.write(text);
-			writer.close();
+			DataOutputStream stream = new DataOutputStream(new FileOutputStream(file));
+			stream.writeChars(text);
+			stream.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
