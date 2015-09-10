@@ -237,7 +237,7 @@ public class XOREncryptor implements EncryptorInterface {
 
 	@Override
 	public EncryptorReturn encrypt(String in) throws CustomizeEncryptorException {
-		if (password == null || password == "")
+		if (password == null || "".equals(password))
 			throw new CustomizeEncryptorException("Empty password");
 		String properIn = preprocessingEncryptToDisplay(in);
 		PasswordXORer xorer = new PasswordXORer(password);
@@ -246,7 +246,7 @@ public class XOREncryptor implements EncryptorInterface {
 
 	@Override
 	public EncryptorReturn decrytp(String in) throws CustomizeEncryptorException {
-		if (password == null || password == "")
+		if (password == null || "".equals(password))
 			throw new CustomizeEncryptorException("Empty password");
 
 		in = decompressString(in);
